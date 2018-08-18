@@ -62,6 +62,9 @@ end:
 	exit(1);
 }
 
+/*
+ * シグナルハンドラ
+ */
 void sig_handler() {
 	if (membuf) {
 		free(membuf);
@@ -78,8 +81,12 @@ void parse_opt(int argc, char **argv) {
 	int c, opt_flg;
 	char *numbuf;
 
-	while ((c = getopt(argc, argv, "k:m:g:")) != -1) {
+	while ((c = getopt(argc, argv, "b;k:m:g:")) != -1) {
 		switch (c) {
+			case 'b':
+				num_check(optarg);
+				opt_flg++;
+				get_memsize = get_memsize;
 			case 'k':
 				num_check(optarg);
 				opt_flg++;
@@ -99,7 +106,6 @@ void parse_opt(int argc, char **argv) {
 	if(1 < opt_flg || get_memsize == 0 || argc < 2) {
 		usage();
 	}
-
 }
 
 int get_mem(unsigned int memNum) {
