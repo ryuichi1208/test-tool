@@ -36,6 +36,9 @@ void usage() {
 	exit(1);
 }
 
+/*
+ * 数値妥当性関数
+ */
 void num_check(char *numbuf) {
 	char *endptr;
 	int err;
@@ -46,8 +49,17 @@ void num_check(char *numbuf) {
 	if (*endptr != '\0' || (get_memsize == UINT_MAX && err == ERANGE)) {
 		fprintf(stderr, "error invalid memory size\n");
 		fprintf(stderr, "SIZE MAX : %u\n", UINT_MAX);
-		exit(1);
+		goto end;
+	} else if (!get_memsize) {
+		fprintf(stderr, "error invalid memory size\n");
+		fprintf(stderr, "SIZE MIN : 0\n");
+		goto end;
 	}
+	
+	return;
+
+end:
+	exit(1);
 }
 
 void sig_handler() {
@@ -59,6 +71,9 @@ void sig_handler() {
 	exit(1);
 }
 
+/*
+ * オプション解析関数
+ */
 void parse_opt(int argc, char **argv) {
 	int c, opt_flg;
 	char *numbuf;
