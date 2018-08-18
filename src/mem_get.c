@@ -16,6 +16,7 @@ void usage();
 void num_check(char *numbuf);
 void sig_handler(); 
 
+/* グローバル変数 */
 static char *membuf;
 static unsigned int get_memsize;
 
