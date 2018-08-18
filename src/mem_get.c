@@ -9,7 +9,7 @@
 
 #define CMD 		"mem_get"
 #define BASE_NUM	10
-#define DEBAG_MODE	1
+#define DEBAG
 
 /* ユーザ定義関数の宣言 */
 void usage();
@@ -19,9 +19,19 @@ void sig_handler();
 /* グローバル変数 */
 static char *membuf;
 static unsigned int get_memsize;
+static const char *const memcg1_stat_names[] = {
+	"cache",
+	"rss",
+	"rss_huge",
+	"shmem",
+	"mapped_file",
+	"dirty",
+	"writeback",
+	"swap",
+};
 
 void usage() {
-	fprintf(stderr, "%s is error exec!\n", CMD);
+	fprintf(stderr, "USAGE : %s [-k|-m] memsize\n", CMD);
 	fprintf(stderr,"\n");
 	exit(1);
 }
@@ -41,7 +51,11 @@ void num_check(char *numbuf) {
 }
 
 void sig_handler() {
-	fprintf(stdout, "MEM GET END\n");
+	if (membuf) {
+		free(membuf);
+	}
+
+	fprintf(stdout, "\nMEMORY GET END\n");
 	exit(1);
 }
 
