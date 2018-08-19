@@ -9,7 +9,12 @@
 
 #define CMD 		"mem_get"
 #define BASE_NUM	10
+#define MAX_STRING 	128
 #define DEBAG
+
+/* メモリ取得中の実行マクロ */
+#define loop_func() \
+	do { sleep(10); } while(0)
 
 /* ユーザ定義関数の宣言 */
 void usage();
@@ -87,6 +92,7 @@ void parse_opt(int argc, char **argv) {
 				num_check(optarg);
 				opt_flg++;
 				get_memsize = get_memsize;
+				break;
 			case 'k':
 				num_check(optarg);
 				opt_flg++;
@@ -108,7 +114,28 @@ void parse_opt(int argc, char **argv) {
 	}
 }
 
+char *use_popen(void) {
+	FILE *fp;
+	char command[MAX_STRING];
+	char output[MAX_STRING];
+	sprintf(command, "grep VmSize /proc/%d/status", getpid());
+	if ((fp = popen(command, "r")) == NULL) {
+		perror("opne failed");
+	}
+
+	fread(output,128, 1, fp);
+
+	if (pclose(fp) == -1) {
+		perror("close failed");
+	}
+
+	return output;
+
+}
+
 int get_mem(unsigned int memNum) {
+	char* RSS;
+
 	//プロセスID取得
 	pid_t p_pid = getppid();
 
@@ -119,20 +146,21 @@ int get_mem(unsigned int memNum) {
 		return -1;
 	}
 	memset(membuf, 1, memNum);
-	
-	
+
+	RSS = use_popen();
+
 	fprintf(stdout, "MEMORY GET SUCCESS!\n");
-	fprintf(stdout, "PID[%d] GETSIZE[%u]\n", p_pid, memNum);
+	fprintf(stdout, "PID[%d] GETSIZE[%u] RSS[%s]\n", p_pid, memNum, RSS);
 
 	while(1) {
-		sleep(10);
+		loop_func();
 	}
 
 	return 0;
 }
 
 int main (int argc, char **argv) {
-	int ret;
+	int ret = 1;
 
 	//オプション解析
 	parse_opt(argc, argv);
