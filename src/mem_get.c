@@ -36,7 +36,7 @@ static const char *const memcg1_stat_names[] = {
 };
 
 void usage() {
-	fprintf(stderr, "USAGE : %s [-k|-m] memsize\n", CMD);
+	fprintf(stderr, "USAGE : %s [-b|-k|-m] memsize\n", CMD);
 	fprintf(stderr,"\n");
 	exit(1);
 }
