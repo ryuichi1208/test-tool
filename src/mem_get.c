@@ -19,7 +19,7 @@
 /* ユーザ定義関数の宣言 */
 void usage();
 void num_check(char *numbuf);
-void sig_handler(); 
+void sig_handler();
 
 /* グローバル変数 */
 static char *membuf;
@@ -60,7 +60,7 @@ void num_check(char *numbuf) {
 		fprintf(stderr, "SIZE MIN : 0\n");
 		goto end;
 	}
-	
+
 	return;
 
 end:
@@ -172,7 +172,7 @@ int main (int argc, char **argv) {
 
 	//メモリ取得
 	ret = get_mem(get_memsize);
-	if(!ret) 
+	if(!ret)
 		usage();
 
 	return 0;
