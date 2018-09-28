@@ -162,7 +162,6 @@ int get_mem(unsigned int memNum) {
 int main (int argc, char **argv) {
 	int ret = 1;
 
-	//オプション解析
 	parse_opt(argc, argv);
 
 	if(signal(SIGINT, sig_handler) == SIG_ERR) {
