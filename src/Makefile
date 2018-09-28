@@ -1,6 +1,10 @@
 # Makefile for hello.c
-mem_get: mem_get.c
-	gcc -Wall -O2 -o mem_get mem_get.c
+GCC=/usr/bin/gcc
 
-clean: 
-	rm -f mem_get
+mem_get: mem_get.c
+	$(GCC) -Wall -O2 -o mem_get mem_get.c
+	$(GCC) -Wall -O2 -pthread cpu_get.c -o cpu_get
+
+
+clean:
+	rm -f mem_get cpu_get
