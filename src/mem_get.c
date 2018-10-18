@@ -10,6 +10,8 @@
 #define CMD 		"mem_get"
 #define BASE_NUM	10
 #define MAX_STRING 	128
+
+#ifndef __unix
 #define DEBAG
 
 /* メモリ取得中の実行マクロ */
