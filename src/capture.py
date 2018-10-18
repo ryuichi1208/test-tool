@@ -21,7 +21,7 @@ class ControllerBoxWidget(QtGui.QWidget):
     def __init__(self, config, parent=None):
         QtGui.QWidget.__init__(self, parent=parent)
         self.setup(config)
-        
+
     def setup(self,config):
         self.start = QtGui.QPushButton('Start', parent=self)
         self.stop = QtGui.QPushButton('Stop', parent=self)
@@ -38,7 +38,7 @@ class ControllerBoxWidget(QtGui.QWidget):
         self.windowTitle = QtGui.QLineEdit(parent=self)
         self.windowTitle.setText(config.get('config', 'title'))
 
-        
+
         layout = QtGui. QGridLayout()
         layout.addWidget(self.start, 0,0)
         layout.addWidget(self.stop, 0,1)
@@ -47,25 +47,26 @@ class ControllerBoxWidget(QtGui.QWidget):
         layout.addWidget(self.windowTitleLavel, 2,0)
         layout.addWidget(self.windowTitle, 2,1)
         layout.addWidget(self.quit, 3,1)
-        
+
         self.setLayout(layout)
-        
+
     def locInput(self):
         self.interval.setReadOnly(True)
         self.windowTitle.setReadOnly(True)
-        
+
     def releaseInput(self):
         self.interval.setReadOnly(False)
         self.windowTitle.setReadOnly(False)
 
+# 画面生成
 class CaptureWidget(QtGui.QWidget):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent=parent)
         self.setup()
-        
+
     def setup(self):
         self.interval = 60000
-        
+
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.getCapture)
 
@@ -78,7 +79,7 @@ class CaptureWidget(QtGui.QWidget):
     def getCapture(self):
         directory = 'capture'
         if not os.path.isdir(directory):
-            os.makedirs(directory)        
+            os.makedirs(directory)
         try :
             handle = m.getid(self.windowTitle)
             rect = winxpgui.GetWindowRect(handle)
@@ -98,15 +99,15 @@ class CaptureWidget(QtGui.QWidget):
             self.setMessage('Running...')
         except ValueError as e:
             self.setMessage(str(e))
-    
+
     def stop(self):
         self.timer.stop()
         self.setMessage('Stopped')
-        
+
     def setInterval(self, interval):
         self.interval = int(interval)
         self.timer.setInterval(self.interval)
-        
+
     def setWindowTitle(self, string):
         self.windowTitle = str(string)
 
