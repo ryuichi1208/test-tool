@@ -14,3 +14,4 @@ $ ./mem_get get_memory
 
 $ ./cpu_get get_cpu_num
 
+$ make clean
