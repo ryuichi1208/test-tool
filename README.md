@@ -7,7 +7,7 @@ PCの負荷ツールやリソース取得アプリ
 ## cpuget
 CPU負荷フール
 
-### 実行イメージ
+##### 実行イメージ
 $ make
 
 $ ./mem_get get_memory
